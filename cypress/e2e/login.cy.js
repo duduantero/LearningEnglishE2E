@@ -14,7 +14,15 @@ describe ('Tela de Login',()=>{
         cy.get('#field-email').type('teste@gmail.com');
         cy.get('#field-senha').type('Senha123')
         cy.get('#button-login').click();
-        cy.contains('Erro realizar Login - Error: Usuário não encontrado no banco de dados')
+        cy.contains('Error: E-mail ou senha inválidos')
+        //
+    })
+
+        it('Não deve logar com e-mail inválido',()=>{
+        cy.get('#field-email').type('teste123@gmail.com');
+        cy.get('#field-senha').type('Senha123')
+        cy.get('#button-login').click();
+        cy.contains('Error: E-mail ou senha inválidos')
         //
     })
     
