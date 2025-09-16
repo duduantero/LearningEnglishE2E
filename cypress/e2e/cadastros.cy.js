@@ -1,5 +1,5 @@
-describe('Fluxo de Cadastro - Mock API', () => {
-
+describe('RF02 - Cadastro de usuário', () => {
+  
   it('Deve simular cadastro de usuário com sucesso', () => {
     // Intercepta a chamada da rota real: /users/cadastro
     cy.intercept('POST', 'http://localhost:3000/users/cadastro', {
@@ -42,11 +42,47 @@ describe('Fluxo de Cadastro - Mock API', () => {
       expect(body.email).to.eq('teste@gmail.com');
     });
 
-    // (Opcional) Valida parte da resposta da API simulada
+    //Valida parte da resposta da API simulada
     cy.get('@createUser').its('response.body.user').should((user) => {
       expect(user.privilege).to.eq('student');
       expect(user.cefr).to.eq('B2');
     });
   });
+  it('Não deve cadastrar com senha sem caracteres mínimos',()=>{
+    cy.visit('/register');
+    cy.get('#field-name').type('Teste Caracteres');
+    cy.get('#field-email').type('testeCaracteres@gmail.com');
+    cy.get('#field-senha').type('Senha123');
+    cy.get('mat-select[formControlName="cefr"]').click();
+    cy.get('#mat-option-3').click();
+    cy.get('.gap-2 > :nth-child(2) > .mat-mdc-form-field > .mat-mdc-text-field-wrapper > .mat-mdc-form-field-flex > .mat-mdc-form-field-infix').type('Senha@123');
+    cy.get('#matErrorLargo')
+  .should('contain.text', 'Senha precisa ter 8 caracteres, pelo menos 1 letra maiúscula e 1 minúscula, 1 caractere especial e 1 número.');
+    cy.get('#button-cadastro').should('be.disabled');
+  })
+  it('Não deve cadastrar devido a E-mail já cadastrado',()=>{
+    cy.visit('/register');
+    cy.get('#field-name').type('Ana Silva');
+    cy.get('#field-email').type('ana@gmail.com');
+    cy.get('#field-senha').type('Senha@123');
+    cy.get('mat-select[formControlName="cefr"]').click();
+    cy.get('#mat-option-3').click();
+    cy.get('.gap-2 > :nth-child(2) > .mat-mdc-form-field > .mat-mdc-text-field-wrapper > .mat-mdc-form-field-flex > .mat-mdc-form-field-infix').type('Senha@123');
+    cy.get('#button-cadastro').click('');
+  })
+  it('Não deve cadastrar usuário com campos obrigatórios em branco',()=>{
+    cy.visit('/register');
+    cy.get('#field-name').click().blur();
+    cy.get('#field-email').click().blur();
+    cy.contains('E-mail é obrigatório');
+    cy.get('#field-senha').click().blur();
+    cy.contains('Senha é obrigatório');
+    cy.get('#button-cadastro').should('be.disabled');
+
+
+
+  })
+
+
 
 });
