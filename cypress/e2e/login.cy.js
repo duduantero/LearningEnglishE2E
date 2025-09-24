@@ -65,7 +65,10 @@ describe ('RF01 - Login',()=>{
     })
 
     it('Cenário 5 — Não deve logar usuário desativado',()=>{
-        cy.contains('Usuário desativado')
+        cy.get('#field-email').type('henrique@gmail.com');
+        cy.get('#field-senha').type('Senha@123')
+        cy.get('#button-login').click();
+        cy.contains('Usuário não encontrado')
     })
 
 })
