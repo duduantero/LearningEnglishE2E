@@ -1,5 +1,6 @@
 Cypress.Commands.add('login', (username, password) => {
-  cy.get('#username').type(username);
-  cy.get('#password').type(password);
-  cy.get('#loginButton').click();
+  cy.visit('/login')
+  cy.get('#field-email').type(username);
+  cy.get('#field-senha').type(password)
+  cy.get('#button-login').click();
 });
