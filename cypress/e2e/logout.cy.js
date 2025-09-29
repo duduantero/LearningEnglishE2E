@@ -1,9 +1,7 @@
 describe ('Logout',()=>{
     beforeEach(()=> {
-        cy.visit('/login')
-        cy.get('#field-email').type('ana@gmail.com');
-        cy.get('#field-senha').type('Senha@123')
-        cy.get('#button-login').click();
+        cy.login('ana@gmail.com','Senha@123')
+        cy.wait(3500);
     });
     it('Deve encerrar sessão do usuário ',()=>{
         cy.get('#botao-usuario > .mat-icon').click();
