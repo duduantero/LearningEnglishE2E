@@ -1,4 +1,8 @@
-{
+{"scripts": {
+    "start": "npm run cypress:open -d",
+    "cypress:open": "cypress open"
+  }
+  ,
   "devDependencies": {
     "cypress": "^15.0.0"
   }
