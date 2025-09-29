@@ -4,6 +4,7 @@ describe('RF9 - Responder questão', () => {
         cy.get('#field-email').type('ana@gmail.com');
         cy.get('#field-senha').type('Senha@123');
         cy.get('#button-login').click();
+        cy.wait(3500)
         cy.visit('/student/questoes');
         
     });
@@ -20,7 +21,6 @@ describe('RF9 - Responder questão', () => {
         cy.contains('Você errou!'); 
     })
     it('Sem alternativa selecionada', ()=>{
-        cy.get(':nth-child(1) > .question-content > .question-actions > .submit-button').click();
-        cy.contains('Selecione uma alternativa antes de responder')
+        cy.get(':nth-child(1) > .question-content > .question-actions > .submit-button').should('be.disabled');
     })
 })
